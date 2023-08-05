@@ -14,7 +14,7 @@
 #include <Adafruit_NeoPixel.h>
 
 // version control
-String Version = "LoR Core Version: PS4 Control : 1.0.0";
+String Version = "LoR Core Version: PS4 Control : 1.1.0";
 
 // IO Interface Definitions
 #define LED_DataPin 12
@@ -60,7 +60,7 @@ const int MOTOR_PWM_Channel_B[] = { Motor_M1_B, Motor_M2_B, Motor_M3_B, Motor_M4
 const int PWM_FREQUENCY = 20000;
 const int PWM_RESOLUTION = 8;
 
-// Process joystick input and calculate motor speeds 
+// Process joystick input and calculate motor speeds
 bool MecanumDrive_Enabled = true;
 const int DEAD_BAND = 20;
 const float TURN_RATE = 1.5;
@@ -156,14 +156,33 @@ void Motor_STOP() {
   Set_Motor_Output(STOP, Motor_M6_A, Motor_M6_B);
 }
 
+// Tones created in the motors. Cycle through each motor.
+void Start_Tone() {
+  for (int i = 0; i < 6; i++) {
+    long ToneTime = millis() + 200;
+    bool state = 0;
+    while (millis() < ToneTime) {
+      digitalWrite(motorPins_A[i], state);
+      digitalWrite(motorPins_B[i], !state);
+      state = !state;
+      long WaitTime = micros() + (100 * (i + 1));
+      while (micros() < WaitTime) {}
+    }
+    digitalWrite(motorPins_A[i], 0);
+    digitalWrite(motorPins_B[i], 0);
+    delay(50);
+  }
+}
+
+
 // check battery status of the ps4 controller
 long DelaySerialPrint = 0;
 void PS4controller_BatteryCheck() {
-  if (millis()>DelaySerialPrint){
+  if (millis() > DelaySerialPrint) {
     Serial.printf("Controller Battery Level : %d\n", PS4.Battery());
-    DelaySerialPrint = millis()+1000;
+    DelaySerialPrint = millis() + 1000;
   }
-  if(PS4.Charging())PS4.setFlashRate(1000, 1000);
+  if (PS4.Charging()) PS4.setFlashRate(1000, 1000);
   else PS4.setFlashRate(0, 0);
   if (PS4.Battery() > 5) PS4.setLed(0, 255, 0);
   else if (PS4.Battery() > 2) PS4.setLed(255, 255, 0);
@@ -182,7 +201,7 @@ void Rumble_Once() {
   Connected_Rumble = true;
   PS4.setRumble(255, 255);
   PS4.sendToController();
-  delay(500);
+  delay(200);
   PS4.setRumble(0, 0);
   PS4.sendToController();
 }
@@ -231,6 +250,15 @@ void setup() {
   digitalWrite(LED_DataPin, 0);
   digitalWrite(MotorEnablePin, 1);
 
+  // Neopixels Configuration
+  strip.begin();            // INITIALIZE NeoPixel strip object
+  strip.show();             // Turn OFF all pixels ASAP
+  strip.setBrightness(50);  // Set BRIGHTNESS to about 1/5 (max = 255)
+
+  // Motor test tones
+  NeoPixel_SetColour(BLUE);
+  Start_Tone();
+
   // configure LED PWM functionalitites
   for (int i = 0; i < 6; i++) {
     ledcSetup(MOTOR_PWM_Channel_A[i], PWM_FREQUENCY, PWM_RESOLUTION);
@@ -238,22 +266,23 @@ void setup() {
     ledcAttachPin(motorPins_A[i], MOTOR_PWM_Channel_A[i]);
     ledcAttachPin(motorPins_B[i], MOTOR_PWM_Channel_B[i]);
   }
+  NeoPixel_SetColour(PURPLE);
 
-  // Neopixels Configuration
-  strip.begin();            // INITIALIZE NeoPixel strip object
-  strip.show();             // Turn OFF all pixels ASAP
-  strip.setBrightness(50);  // Set BRIGHTNESS to about 1/5 (max = 255)
 
   // PS4 controller configuration (Target mac address saved on the controller)
-  PS4.begin("xx:xx:xx:xx:xx:xx");  // REPLACE WITH THE MAC ADDRESS FROM YOUR PS4 CONTROLLER
- 
+  PS4.begin("e8:9e:b4:fc:b5:a4");  // REPLACE WITH THE MAC ADDRESS FROM YOUR PS4 CONTROLLER
+  NeoPixel_SetColour(YELLOW);
+
   // Serial comms configurations (USB for debug messages)
   Serial.begin(115200);  // USB Serial
+  NeoPixel_SetColour(GREEN);
+
   delay(1500);
 
   Serial.print("Drive Style: ");
   if (MecanumDrive_Enabled) Serial.println("MECANUM");
   else Serial.println("STANDARD");
+  NeoPixel_SetColour(CYAN);
 
   Serial.println("CORE System Ready! " + Version);
 }
@@ -277,4 +306,3 @@ void loop() {
     Connected_Rumble = false;
   }
 }
-
