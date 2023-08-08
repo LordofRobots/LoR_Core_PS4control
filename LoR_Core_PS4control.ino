@@ -14,7 +14,7 @@
 #include <Adafruit_NeoPixel.h>
 
 // version control
-String Version = "LoR Core Version: PS4 Control : 1.1.1";
+String Version = "LoR Core Version: PS4 Control : 1.1.2";
 
 // IO Interface Definitions
 #define LED_DataPin 12
@@ -27,18 +27,18 @@ String Version = "LoR Core Version: PS4 Control : 1.1.1";
 #define channel4Pin 22
 
 // Motor Pin Definitions
-#define motorPin_M1_A 5
-#define motorPin_M1_B 14
-#define motorPin_M2_A 18
-#define motorPin_M2_B 26
+#define motorPin_M1_A 14
+#define motorPin_M1_B 5
+#define motorPin_M2_A 26
+#define motorPin_M2_B 18
 #define motorPin_M3_A 23
 #define motorPin_M3_B 19
 #define motorPin_M4_A 15
 #define motorPin_M4_B 33
-#define motorPin_M5_A 27
-#define motorPin_M5_B 25
-#define motorPin_M6_A 32
-#define motorPin_M6_B 4
+#define motorPin_M5_A 25
+#define motorPin_M5_B 27
+#define motorPin_M6_A 4
+#define motorPin_M6_B 32
 const int motorPins_A[] = { motorPin_M1_A, motorPin_M2_A, motorPin_M3_A, motorPin_M4_A, motorPin_M5_A, motorPin_M6_A };
 const int motorPins_B[] = { motorPin_M1_B, motorPin_M2_B, motorPin_M3_B, motorPin_M4_B, motorPin_M5_B, motorPin_M6_B };
 
