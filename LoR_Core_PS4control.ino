@@ -14,7 +14,7 @@
 #include <Adafruit_NeoPixel.h>
 
 // version control
-String Version = "LoR Core Version: PS4 Control : 1.1.0";
+String Version = "LoR Core Version: PS4 Control : 1.1.1";
 
 // IO Interface Definitions
 #define LED_DataPin 12
@@ -61,7 +61,7 @@ const int PWM_FREQUENCY = 20000;
 const int PWM_RESOLUTION = 8;
 
 // Process joystick input and calculate motor speeds
-bool MecanumDrive_Enabled = true;
+bool MecanumDrive_Enabled = false;
 const int DEAD_BAND = 20;
 const float TURN_RATE = 1.5;
 int Motor_FrontLeft_SetValue, Motor_FrontRight_SetValue, Motor_BackLeft_SetValue, Motor_BackRight_SetValue = 0;
@@ -182,6 +182,7 @@ void PS4controller_BatteryCheck() {
     Serial.printf("Controller Battery Level : %d\n", PS4.Battery());
     DelaySerialPrint = millis() + 1000;
   }
+  PS4.setRumble(0, 0);
   if (PS4.Charging()) PS4.setFlashRate(1000, 1000);
   else PS4.setFlashRate(0, 0);
   if (PS4.Battery() > 5) PS4.setLed(0, 255, 0);
