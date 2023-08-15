@@ -2,7 +2,9 @@
 Contains the configurations for controlling a MiniBot via PS4 controller.
 
 **Board :** ESP32 dev module 
-**Lor_Core Module :** [Download Data Sheet](https://drive.google.com/file/d/1K_HXbtapUFA34HZ2ffo99LTikhBJlV7b/view?usp=sharing)
+
+**LoR_Core Module :** [Download Data Sheet](https://drive.google.com/file/d/1K_HXbtapUFA34HZ2ffo99LTikhBJlV7b/view?usp=sharing)
+
 **User Guide :** [Download Guide](https://drive.google.com/file/d/1VxEZbe9GS56jVdDaM7DetwX6qACPpNo5/view?usp=sharing)
 
 This Arduino code is designed for an ESP32 microcontroller to manage a robot using a PS4 controller. It features two drive styles: omni directional drive (Mecanum drive) and a standard tank-style drive. It also provides LED indication of control inputs and power/battery status of the PS4 controller. There are several functionalities in the script to manage drive controls, battery checks, LED displays, motor control, and PS4 controller connection.
