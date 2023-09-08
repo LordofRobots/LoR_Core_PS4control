@@ -26,3 +26,12 @@ Key functions of the code:
 - **Serial communications**: The code sends debug messages and core system status over USB serial communication.
 
 In the `setup()` function, the pins are initialized, the PS4 controller is connected, the LED strip and PWM functionalities are set up, and the serial communications are started. The main loop (`loop()`) handles PS4 controller input, adjusts the LED display, controls motion, and checks the connection status.
+
+#Known Issues 
+-2023/09/08
+   **Problem:** Controller stops connecting to MiniBot. LED on controller flashes only 2 or 3 times the shuts off without connecting.
+   **Solution:** Under "Tools" Enable "Erase all Flash before sketch Upload"
+    
+    ![image](https://github.com/LordofRobots/LoR_Core_PS4control/assets/131721361/83374023-ab1b-402b-964d-29df6ad2bf49)
+
+
