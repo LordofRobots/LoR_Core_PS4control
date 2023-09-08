@@ -31,7 +31,8 @@ In the `setup()` function, the pins are initialized, the PS4 controller is conne
 -2023/09/08
    **Problem:** Controller stops connecting to MiniBot. LED on controller flashes only 2 or 3 times the shuts off without connecting.
    **Solution:** Under "Tools" Enable "Erase all Flash before sketch Upload"
-    
-    ![image](https://github.com/LordofRobots/LoR_Core_PS4control/assets/131721361/83374023-ab1b-402b-964d-29df6ad2bf49)
+
+    ![image](https://github.com/LordofRobots/LoR_Core_PS4control/assets/131721361/18d010c7-e5cc-44be-aacc-79a2b79fd406)
+
 
 
