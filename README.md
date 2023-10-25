@@ -3,9 +3,11 @@ Contains the configurations for controlling a MiniBot via PS4 controller.
 
 **Board :** ESP32 dev module 
 
-**LoR_Core Module :** [Download Data Sheet](https://drive.google.com/file/d/1K_HXbtapUFA34HZ2ffo99LTikhBJlV7b/view?usp=sharing)
+**User Guide to PS4 Control :** [Download User Guide](https://tr.ee/PGy3wb1Fbj)
 
-**User Guide :** [Download Guide](https://drive.google.com/file/d/1VxEZbe9GS56jVdDaM7DetwX6qACPpNo5/view?usp=sharing)
+**LoR_Core Module :** [Download Data Sheet](https://tr.ee/klJ5_gKmH-)
+
+**Beginners Guide to minibots:** [Download beginner's Guide](https://tr.ee/QhCzRJD69O)
 
 **Link Tree :** [Useful Links to Web Pages and Documentation](https://linktr.ee/LordofRobots)
 
