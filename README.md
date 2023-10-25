@@ -1,7 +1,8 @@
 # LoR_Core_Ps4control
+
 Contains the configurations for controlling a MiniBot via PS4 controller.
 
-**Board :** ESP32 dev module 
+**Arduino Board selection:** ESP32 dev module 
 
 **User Guide to PS4 Control :** [Download User Guide](https://tr.ee/PGy3wb1Fbj)
 
