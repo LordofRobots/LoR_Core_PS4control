@@ -1,21 +1,23 @@
-/* LORD of ROBOTS - LoR_Core_PS4control - 202305222112
+/* LORD of ROBOTS - LoR_Core_PS4control - 202401190920
   Control inputs - LED Indication:
     PS4 - Rainbow LED
     none/Stop/standby - Red LED
-
-  Drive configurations:
-    Mecanum 
-    Standard tank style
-
 */
+
+//////////////////////////////////////////////////////////////////////////
+/////                        libraries                               /////
+//////////////////////////////////////////////////////////////////////////
 #include <PS4Controller.h>
 #include <ps4.h>
 #include <ps4_int.h>
 #include <Adafruit_NeoPixel.h>
 
 // version control
-String Version = "LoR Core Version: PS4 Control : 1.1.2";
+String Version = "LoR Core Version: PS4 Control - 202401190920";
 
+//////////////////////////////////////////////////////////////////////////
+/////                        Definitions                             /////
+//////////////////////////////////////////////////////////////////////////
 // IO Interface Definitions
 #define LED_DataPin 12
 #define LED_COUNT 36
@@ -27,18 +29,20 @@ String Version = "LoR Core Version: PS4 Control : 1.1.2";
 #define channel4Pin 22
 
 // Motor Pin Definitions
-#define motorPin_M1_A 14
-#define motorPin_M1_B 5
-#define motorPin_M2_A 26
-#define motorPin_M2_B 18
-#define motorPin_M3_A 23
-#define motorPin_M3_B 19
-#define motorPin_M4_A 15
-#define motorPin_M4_B 33
+#define motorPin_M1_A 26
+#define motorPin_M1_B 18
+#define motorPin_M2_A 14
+#define motorPin_M2_B 5
+#define motorPin_M3_A 15
+#define motorPin_M3_B 33
+#define motorPin_M4_A 23
+#define motorPin_M4_B 19
 #define motorPin_M5_A 25
 #define motorPin_M5_B 27
 #define motorPin_M6_A 4
 #define motorPin_M6_B 32
+#define MotorEnablePin 13
+
 const int motorPins_A[] = { motorPin_M1_A, motorPin_M2_A, motorPin_M3_A, motorPin_M4_A, motorPin_M5_A, motorPin_M6_A };
 const int motorPins_B[] = { motorPin_M1_B, motorPin_M2_B, motorPin_M3_B, motorPin_M4_B, motorPin_M5_B, motorPin_M6_B };
 
@@ -60,6 +64,9 @@ const int MOTOR_PWM_Channel_B[] = { Motor_M1_B, Motor_M2_B, Motor_M3_B, Motor_M4
 const int PWM_FREQUENCY = 20000;
 const int PWM_RESOLUTION = 8;
 
+//////////////////////////////////////////////////////////////////////////
+/////                  Function: Motion Control                      /////
+//////////////////////////////////////////////////////////////////////////
 // Process joystick input and calculate motor speeds
 bool MecanumDrive_Enabled = false;
 const int DEAD_BAND = 20;
@@ -103,6 +110,9 @@ void Motion_Control(int LY_Axis, int LX_Axis, int RX_Axis) {
   Motor_BackRight_SetValue = SlewRateFunction(BackRight_TargetValue, Motor_BackRight_SetValue);
 }
 
+//////////////////////////////////////////////////////////////////////////
+/////                     Function: SLEW RATE                        /////
+//////////////////////////////////////////////////////////////////////////
 // Function to handle slew rate for motor speed ramping
 // Slew rate for ramping motor speed
 const int SLEW_RATE_MS = 20;
@@ -114,6 +124,9 @@ int SlewRateFunction(int Input_Target, int Input_Current) {
   return Input_Current;
 }
 
+//////////////////////////////////////////////////////////////////////////
+/////              Function: Motor Output Control                    /////
+//////////////////////////////////////////////////////////////////////////
 // Function to control motor output based on input values
 // Motor speed limits and starting speed
 const int MAX_SPEED = 255;
@@ -140,6 +153,10 @@ void Set_Motor_Output(int Output, int Motor_ChA, int Motor_ChB) {
   ledcWrite(Motor_ChB, B);
 }
 
+
+//////////////////////////////////////////////////////////////////////////
+/////              Function: General motor behavior                  /////
+//////////////////////////////////////////////////////////////////////////
 // configure motor output
 void Motor_Control() {
   Set_Motor_Output(Motor_FrontLeft_SetValue, Motor_M1_A, Motor_M1_B);
@@ -156,6 +173,9 @@ void Motor_STOP() {
   Set_Motor_Output(STOP, Motor_M6_A, Motor_M6_B);
 }
 
+//////////////////////////////////////////////////////////////////////////
+/////                  Function: Startup Tone                       /////
+//////////////////////////////////////////////////////////////////////////
 // Tones created in the motors. Cycle through each motor.
 void Start_Tone() {
   for (int i = 0; i < 6; i++) {
@@ -174,7 +194,9 @@ void Start_Tone() {
   }
 }
 
-
+//////////////////////////////////////////////////////////////////////////
+/////              Function: PS4 Battery Monitoring                 /////
+//////////////////////////////////////////////////////////////////////////
 // check battery status of the ps4 controller
 long DelaySerialPrint = 0;
 void PS4controller_BatteryCheck() {
@@ -195,6 +217,9 @@ void PS4controller_BatteryCheck() {
   PS4.sendToController();
 }
 
+//////////////////////////////////////////////////////////////////////////
+/////              Function: PS4 controller Rumble                   /////
+//////////////////////////////////////////////////////////////////////////
 // controller rumble control for connecting
 bool Connected_Rumble = false;
 void Rumble_Once() {
@@ -207,6 +232,9 @@ void Rumble_Once() {
   PS4.sendToController();
 }
 
+//////////////////////////////////////////////////////////////////////////
+/////                  Function: Neopixel (LED)                      /////
+//////////////////////////////////////////////////////////////////////////
 // Set a specific color for the entire NeoPixel strip
 // NeoPixel Configurations
 Adafruit_NeoPixel strip(LED_COUNT, LED_DataPin, NEO_GRB + NEO_KHZ800);
@@ -232,7 +260,9 @@ void NeoPixel_Rainbow() {
   if (firstPixelHue >= 5 * 65536) firstPixelHue = 0;
 }
 
-
+//////////////////////////////////////////////////////////////////////////
+/////                          Main: SETUP                           /////
+//////////////////////////////////////////////////////////////////////////
 // Set up pins, LED PWM functionalities and begin PS4 controller, Serial and Serial2 communication
 void setup() {
   // Set up the pins
@@ -288,7 +318,9 @@ void setup() {
   Serial.println("CORE System Ready! " + Version);
 }
 
-
+//////////////////////////////////////////////////////////////////////////
+/////                           Main: Loop                           /////
+//////////////////////////////////////////////////////////////////////////
 void loop() {
   // Main loop to handle PS4 controller and serial input
   //PS4 Control
