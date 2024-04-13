@@ -301,7 +301,7 @@ void setup() {
 
 
   // PS4 controller configuration (Target mac address saved on the controller)
-  PS4.begin("e8:9e:b4:fc:b5:a4");  // REPLACE WITH THE MAC ADDRESS FROM YOUR PS4 CONTROLLER
+  PS4.begin("e0:5a:1b:a1:5e:f6");  // REPLACE WITH THE MAC ADDRESS FROM YOUR PS4 CONTROLLER
   NeoPixel_SetColour(YELLOW);
 
   // Serial comms configurations (USB for debug messages)
